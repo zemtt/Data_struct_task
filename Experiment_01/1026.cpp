@@ -109,34 +109,36 @@ Status OutputList(LinkList a){
 }
 
 int main(){
-	int la,lb;
-	LNode *pa,*pb;
+	int len;
 	LinkList a,b,c;
+	LNode *pa,*pb,*pc;
 	InitLinkList(a);
 	InitLinkList(b);
 	InitLinkList(c);
 	while(1){
 		int count = 0;
-		InitLinkList(c);
-		cin>>la>>lb;
-		if(la==0&&lb==0)	break;
-		InputList(a,la);
-		InputList(b,lb);
+		cin>>len;
+		if(!len)	break;
+		InputList(a,len);
 		pa = a->next;
-		pb = b->next;
-		while(pa&&pb){
-			if(pa->elem < pb->elem){
+		pb = b;
+		pc = c;
+		while(pa){
+			if(pa->elem<0){
+				pb->next = pa;
+				pb = pa;
 				pa = pa->next;
-			}
-			else if(pa->elem > pb->elem){
-				pb = pb->next;
 			}
 			else{
-				ListInsert(c,++count,pa->elem);
+				pc->next = pa;
+				pc = pa;
 				pa = pa->next;
-				pb = pb->next;
 			}
 		}
+		a->next = NULL;
+		pb->next = NULL;
+		pc->next = NULL;
+		OutputList(b);
 		OutputList(c);
 		ListClear(a);
 		ListClear(b);

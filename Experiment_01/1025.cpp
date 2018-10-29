@@ -97,6 +97,7 @@ Status InputList(LinkList& a, int n){
 Status OutputList(LinkList a){
 	LNode* p = a->next;
 	int f=0;
+	int count=0;
 	while(p){
 		if(f)
 			cout<<' ';
@@ -104,8 +105,10 @@ Status OutputList(LinkList a){
 			f=1;
 		cout<<p->elem;
 		p = p->next;
+		count++;
 	}
 	cout<<endl;
+	cout<<count<<endl;
 }
 
 int main(){
@@ -126,16 +129,20 @@ int main(){
 		pb = b->next;
 		while(pa&&pb){
 			if(pa->elem < pb->elem){
+				ListInsert(c,++count,pa->elem);
 				pa = pa->next;
 			}
 			else if(pa->elem > pb->elem){
 				pb = pb->next;
 			}
 			else{
-				ListInsert(c,++count,pa->elem);
 				pa = pa->next;
 				pb = pb->next;
 			}
+		}
+		while(pa){
+			ListInsert(c,++count,pa->elem);
+			pa = pa->next;
 		}
 		OutputList(c);
 		ListClear(a);

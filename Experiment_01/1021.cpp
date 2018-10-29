@@ -194,6 +194,7 @@ void oper_a(LinkList<Data>& a, LinkList<Data>& b){
 			cout<<p->data.k<<"x^"<<p->data.m;
 		else
 			cout<<p->data.k;
+		flag2=1;
 	}
 	if(!flag2)
 		cout<<'0';

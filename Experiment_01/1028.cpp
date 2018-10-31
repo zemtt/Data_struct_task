@@ -111,7 +111,7 @@ Status OutputList(LinkList a){
 	cout<<endl;
 }
 
-LNode* ListReverse(LinkList& a, LNode* head){
+LNode* ListReverse(LNode* a, LNode* head){
 	if(a->next){
 		ListReverse(a->next, head)->next = a;
 		a->next = NULL;
@@ -133,7 +133,7 @@ int main(){
 		cin>>len;
 		if(!len)	break;
 		InputList(a,len);
-        ListReverse(a->next, a);
+        cout<<ListReverse(a->next, a)->elem;
         OutputList(a);
 		ListClear(a);
 	}

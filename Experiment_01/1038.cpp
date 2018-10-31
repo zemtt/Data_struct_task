@@ -6,8 +6,21 @@ int SearchMain(int k[], int len){
     int count[len];
     int num = 0;
     for(int i=0;i<len;i++){
-        if
+        bool in = false;
+        for(int j=0;j<num;j++){
+            if(k[i] == number[j]){
+                count[j] ++;
+                if(count[j]>len/2)  return k[i];
+                in = true;
+            }
+        }
+        if(!in){
+            number[num] = k[i];
+            count[num] = 1;
+            num++;
+        }
     }
+    return -1;
 }
 
 int main(){

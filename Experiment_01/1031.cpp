@@ -9,7 +9,7 @@ typedef int Status;
 using namespace std;
 
 typedef struct LNode{
-	char elem;
+	int elem;
 	struct LNode* next;
 }LNode, *LinkList;
 
@@ -19,7 +19,7 @@ Status InitLinkList(LinkList &L){
 	return OK;
 }
 
-Status GetElem(LinkList L, int i, char&e){
+Status GetElem(LinkList L, int i, int&e){
 	LNode* p = L->next;
 	for(int k=1;k<i;k++){
 		if(!p->next)	return ERROR;
@@ -29,17 +29,17 @@ Status GetElem(LinkList L, int i, char&e){
 	return OK;
 }
 
-LNode* LocateElem(LinkList L, char e){
+LNode* LocateElem(LinkList L, int e){
 	LNode* p = L->next;
 	while(p){
-		if(e==p->elem)
+		if(e=p->elem)
 			return p;
 		p = p->next;
 	}
 	return NULL;
 }
 
-Status ListInsert(LinkList& L, int i, char e){
+Status ListInsert(LinkList& L, int i, int e){
 	LNode* p = L;
 	for(int k=1;k<i;k++){
 		if(!p->next)	return ERROR;
@@ -85,13 +85,13 @@ int ListLen(LinkList a){
 }
 
 Status InputList(LinkList& a, int n){
-    LNode *p;
+	LNode* p = a;
 	for(int i=0;i<n;i++){
-        p = new LNode;
-        cin>>p->elem;
-        p->next = a->next;
-        a->next = p;
+		p->next = new LNode;
+		cin>>p->next->elem;
+		p=p->next;
 	}
+	p->next = NULL;
 }
 
 Status OutputList(LinkList a){
@@ -108,35 +108,32 @@ Status OutputList(LinkList a){
 	cout<<endl;
 }
 
-int FindEnd(LinkList a, LinkList b){
-	LNode *pa, *pb;
-	pa = a->next;
-	pb = b->next;
-	char ans = pa->elem;
-	while(pa&&pb){
-		if(pa->elem==pb->elem){
-			ans = pa->elem;
-		}
-		else{
-			break;
-		}
-		pa = pa->next;
-		pb = pb->next;
-	}
-	cout<<ans<<endl;
+void DeleteNum(LinkList& a, int t){
+    LNode *p = a;
+    while(p->next){
+        if(p->next->elem==t){
+            LNode *m = p->next;
+            p->next = m->next;
+            delete m;
+        }
+        else{
+            p = p->next;
+        }
+    }
 }
 
 int main(){
-    int la, lb;
+    int len, t;
     LinkList a;
-    LinkList b; 
     InitLinkList(a);
-    InitLinkList(b);
     while(1){
-        cin>>la>>lb;
-        if(!la||!lb)    break;
-        InputList(a, la);
-        InputList(b, lb);
-        FindEnd(a,b);
+        cin>>len;
+        if(!len)    break;
+        InputList(a, len);
+        cin>>t;
+        DeleteNum(a, t);
+        OutputList(a);
+        ListClear(a);
     }
 }
+

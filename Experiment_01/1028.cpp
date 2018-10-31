@@ -111,16 +111,20 @@ Status OutputList(LinkList a){
 	cout<<endl;
 }
 
-LNode* ListReverse(LNode* a, LNode* head){
-	if(a->next){
-		ListReverse(a->next, head)->next = a;
-		a->next = NULL;
-		return a;
-	}
-	else{
-		head->next = a;
-		return a;
-	}
+LNode* ListReverse(LinkList a){
+	LNode *p,*q,*t;
+	if(!a->next)	return a;
+	p = a;
+	q = a->next;
+	t = a->next;
+	do{
+		t = t->next;
+		q->next = p;
+		p = q;
+		q = t;
+	}while (t);
+	a->next = NULL;
+	return p;
 }
 
 int main(){
@@ -133,7 +137,7 @@ int main(){
 		cin>>len;
 		if(!len)	break;
 		InputList(a,len);
-        cout<<ListReverse(a->next, a)->elem;
+		a->next = ListReverse(a->next);
         OutputList(a);
 		ListClear(a);
 	}

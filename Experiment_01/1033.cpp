@@ -4,11 +4,17 @@ using namespace std;
 int FindMiddle(int a[], int b[], int n){
     int ia=0, ib=0, f=0;
     for(int i=0;i<n;i++){
-        if(a[ia] > b[ib])
+        if(a[ia] > b[ib]){
             ib++;
-        else
+			f=1;
+		}
+        else{
             ia++;
+        	f=0;
+		}
     }
+    if(!f)	return a[ia-1];
+    else return b[ib-1];
 }
 
 int main(){

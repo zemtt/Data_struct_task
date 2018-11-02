@@ -1,90 +1,103 @@
-#include <iostream>
-using namespace std;
-#define max 1000
+#include<iostream>
+#include<cstring>
+#include<iomanip>
+#define OK 1
+#define ERROR 0
+#define OVERFLOW -2
+typedef int Status;
 
-void printlist(int data[],int size)
-{
-    for(int i = 0 ; i < size ; i++)
-	{
-        cin>>data[i];
+using namespace std;
+
+typedef struct LNode{
+	int elem;
+    struct LNode* pre;
+	struct LNode* next;
+}LNode, *LinkList;
+
+Status InitLinkList(LinkList &L){
+	L = new LNode;
+	L->next = NULL;
+    L->pre = NULL;
+	return OK;
+}
+
+void InputList(LinkList& a, int n){
+    LNode *p = a;
+    for(int i=0;i<n;i++){
+        if(p->pre){
+            LNode *t = p->next;
+            p->next = new LNode;
+            cin>>p->next->elem;
+            p->next->pre = p;
+            p = p->next;
+            p->next = a->next;
+            a->next->pre = p;
+        }
+        else{
+            p->next = new LNode;
+            p=p->next;
+            cin>>p->elem;
+            p->next = p;
+            p->pre = p;
+        }
     }
 }
 
-void Find(int data[],int size)
-{
-    int low = 0,high = size-1;
-    int low0 = 0,high0 = size-1;
-    int k = size/2;
-    int flag = 1;
-    while(flag)
-	{
-        while(low < high)
-		{
-			int pivot = data[low];
-            while(low < high && data[high] >= pivot)
-			{
-                high--;
-            }
-            if(low != high)
-			{
-				data[low] = data[high];
-            }
-            while(low < high && data[low] <= pivot)
-			{
-                low++;
-            }
-            if(low != high)
-			{
-                data[high] = data[low];
-            }
-            data[low]=pivot;
-            if(low == k-1)
-			{
-                flag = 0;
-            }
-			else if(low < k-1)
-			{
-                low0 = ++low;
-                high = high0;
-            }
-			else
-			{
-                high0 = --high;
-                low = low0;
-            } 
-        }
-    }
-    int f=0;
-    for(int i=0;i<k;i++){
-		if(f)
-			cout<<' ';
-		else
-			f=1;
-		cout<<data[i];
-	}
-    cout<<endl;
-    f=0;
-    for(int i=k;i<size;i++){
-		if(f)
-			cout<<' ';
-		else
-			f=1;
-		cout<<data[i];
-	}
-    cout<<endl;
- } 
+LNode* GetP(LNode *head, int n){
+    LNode *p = head->next;
+    for(int i=0;i<n-1;i++)
+        p = p->next;
+    //cout<<"--"<<p->elem<<"--"<<endl;
+    return p;
+}
 
-int main()
-{
-	int m;
-	while(1)
-	{
-		cin>>m;
-		if(m==0)
-			break;
-		int data[max];
-		printlist(data,m);
-		Find(data,m);
+void ClearList(LNode *head){
+    LNode *p = head;
+    LNode *end = head->next->pre;
+    int f = 0;
+    do{
+        p = p->next;
+        LNode *t = p;
+        if(f)
+            cout<<' ';
+        else
+            f = 1;
+        cout<<t->elem;
+        delete t;
+    }while(p!=end);
+    cout<<endl;
+}
+
+void Swap(LNode *p,LNode *head){
+    LNode *s, *pp, *e;
+    pp = p->pre;
+    s = pp->pre;
+    e = p->next;
+    s->next = p;
+    p->next = pp;
+    pp->next = e;
+    e->pre = pp;
+    pp->pre = p;
+    p->pre = s;
+    if(head->next == p){
+        head->next = pp;
+    }
+    else if(head->next == pp){
+        head->next = p;
+    }
+}
+
+int main(){
+	int len, k;
+	LinkList a;
+	InitLinkList(a);
+	while(1){
+		int count = 0;
+		cin>>len;
+		if(!len)	break;
+		InputList(a,len);
+        cin>>k;
+        Swap(GetP(a, k), a);
+        ClearList(a);
 	}
-    return 0;
 }

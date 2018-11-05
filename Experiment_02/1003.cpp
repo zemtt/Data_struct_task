@@ -1,4 +1,5 @@
 #include<iostream>
+#include<cstring>
 #define OK 1
 #define ERROR 0
 #define OVERFLOW -2
@@ -8,13 +9,13 @@ typedef int Status;
 using namespace std;
 
 typedef struct{
-    ELEMTYPE *top;
-    ELEMTYPE *base;
+    char* top;
+    char *base;
     int stack_size;
 }Stack;
 
 Status InitStack(Stack& a){
-    a.base = new ELEMTYPE[MAX];
+    a.base = new char[MAX];
     if(!a.base) exit(OVERFLOW);
     a.top = a.base;
     a.stack_size = MAX;
@@ -42,20 +43,46 @@ Status DestroyStack(Stack &s){
     return OK;
 }
 
-Status Push(Stack& a, ELEMTYPE e){
+Status Push(Stack& a, char e){
     if(a.top - a.base == a.stack_size)    return ERROR;
     *a.top++ = e;
     return OK;
 }
 
-Status Pop(Stack& a, ELEMTYPE& e){
+Status Pop(Stack& a, char& e){
     if(a.top == a.base) return ERROR;
     else e = *--a.top;
     return OK;
 }
 
-Status GetTop(Stack a, ELEMTYPE& e){
+Status GetTop(Stack a, char& e){
     if(a.top = a.base)  return ERROR;
     e = *(a.top-1);
     return OK;
+}
+
+bool IsHui(char* a){
+    Stack t;
+    InitStack(t);
+    int len = strlen(a);
+    char m;
+    for(int i=0;i<len/2;i++){
+        Push(t, a[i]);
+    }
+    for(int i=0;i<len/2;i++){
+        Pop(t, m);
+        if(m!=a[len-len/2 + i]) return false;
+    }
+    return true;
+}
+
+int main(){
+    char str[1000];
+    while(1){
+        cin>>str;
+        if(!strcmp(str,"0"))    break;
+        if(IsHui(str))  cout<<"YES"<<endl;
+        else    cout<<"NO"<<endl;
+    }
+    return 0;
 }

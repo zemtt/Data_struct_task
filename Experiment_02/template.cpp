@@ -19,20 +19,41 @@ Status InitStack(Stack& a){
     return OK;
 }
 
+bool StackEmpty(Stack a){
+    return s.top == s.base;
+}
+
+it StackLength(Stack a){
+    return s.top - s.base;
+}
+
 Status ClearStack(Stack& a){
     a.top = a.base;
+    return OK;
+}
+
+Status DestroyStack(Stack &s){
+    delete s.base;
+    s.max_size = 0;
+    s.base = NULL;
+    s.top = NULL;
+    return OK;
 }
 
 Status Push(Stack& a, ELEMTYPE e){
-    a.top++ = e;
+    if(a.top - a.base == a.max_size)    return ERROR;
+    *a.top++ = e;
+    return OK;
 }
 
 Status Pop(Stack& a, ELEMTYPE& e){
     if(a.top == a.base) return ERROR;
-    else e = --a.top;
+    else e = *--a.top;
     return OK;
 }
 
 Status GetTop(Stack a, ELEMTYPE& e){
-    e = a.top--;
+    if(a.top = a.base)  return ERROR;
+    e = *(a.top-1);
+    return OK;
 }

@@ -3,7 +3,7 @@
 #define OK 1
 #define ERROR 0
 #define OVERFLOW -2
-#define MAX 1000
+#define MAX 10000
 
 typedef int ELEMTYPE;
 typedef int Status;
@@ -75,10 +75,10 @@ int main(){
         if(!strcmp(str, "0"))   break;
         len = strlen(str);
         for(int i=0;i<len;i++){
-            if(str[i]=='I'){
+            if(str[i]=='I'||str[i]=='i'){
                 Push(t, 1);
             }
-            else{
+            else if(str[i]=='O'){
                 if(Pop(t, m)!=OK){
                     f=0;
                     break;

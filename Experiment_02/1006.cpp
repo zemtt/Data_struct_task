@@ -3,7 +3,7 @@
 #define OK 1
 #define ERROR 0
 #define OVERFLOW -2
-#define MAX 10000
+#define MAX 100000
 
 typedef int ELEMTYPE;
 typedef int Status;
@@ -85,6 +85,7 @@ int main(){
                 }
             }
         }
+        if(t.top!=t.base)   f = 0;
         if(f)   cout<<"TRUE"<<endl;
         else    cout<<"FALSE"<<endl;
         ClearStack(t);

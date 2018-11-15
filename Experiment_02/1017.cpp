@@ -49,5 +49,3 @@ int main(){
         else    cout<<"NO"<<endl;
     }
 }
-
-//ccccccccca aaaaaaaaaaaaaaaccccccccccccccccccccccccccccccccccccccccccc

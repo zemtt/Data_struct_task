@@ -31,36 +31,35 @@ void ClearTree(BiThrNode *tree){
     }
 }
 
-void SwichTree(BiThrTree tree){
+void CountTree(BiThrTree tree, int *v, int i){
     if(tree){
-        BiThrNode *t;
-        t = tree->lchild;
-        tree->lchild = tree->rchild;
-        tree->rchild = t;
-        SwichTree(tree->lchild);
-        SwichTree(tree->rchild);
+        v[i]++;
+        CountTree(tree->lchild, v, i+1);
+        CountTree(tree->rchild, v, i+1);
     }
 }
 
-void PrintTree(BiThrTree tree){
-    if(tree){
-        cout<<tree->data;
-        PrintTree(tree->lchild);
-        PrintTree(tree->rchild);
+int Max(int *t){
+    int max = t[0];
+    for(int i=1;i<100;i++){
+        if(!t[i])    break;
+        if(max<t[i])    max = t[i];
     }
+    return max;
 }
 
 int main(){
     char str0[100];
+    int count[100];
     BiThrNode *tree0;
     while(1){
         cin>>str0;
+        memset(count, 0, sizeof(count));
         if(!strcmp(str0, "0"))  break;
         ii=0;
         CreatTree(tree0, str0);
-        SwichTree(tree0);
-        PrintTree(tree0);
-        cout<<endl;
+        CountTree(tree0, count, 0);
+        cout<<Max(count)<<endl;
         ClearTree(tree0);
     }
 }

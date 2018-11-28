@@ -4,6 +4,7 @@
 using namespace std;
 
 int ii;
+int count[3];
 
 typedef struct BiThrNode{
     char data;
@@ -12,10 +13,14 @@ typedef struct BiThrNode{
 
 void CreatTree(BiThrTree &tree, char *str){
     if(str[ii]!='0'&&str[ii]){
+        int t=0;
         tree = new BiThrNode;
         tree->data = str[ii++];
         CreatTree(tree->lchild, str);
         CreatTree(tree->rchild, str);
+        if(tree->lchild)    t++;
+        if(tree->rchild)    t++;
+        count[t]++;
     }
     else{
         tree = NULL;
@@ -31,36 +36,16 @@ void ClearTree(BiThrNode *tree){
     }
 }
 
-void SwichTree(BiThrTree tree){
-    if(tree){
-        BiThrNode *t;
-        t = tree->lchild;
-        tree->lchild = tree->rchild;
-        tree->rchild = t;
-        SwichTree(tree->lchild);
-        SwichTree(tree->rchild);
-    }
-}
-
-void PrintTree(BiThrTree tree){
-    if(tree){
-        cout<<tree->data;
-        PrintTree(tree->lchild);
-        PrintTree(tree->rchild);
-    }
-}
-
 int main(){
     char str0[100];
     BiThrNode *tree0;
     while(1){
         cin>>str0;
         if(!strcmp(str0, "0"))  break;
+        memset(count,0,sizeof(count));
         ii=0;
         CreatTree(tree0, str0);
-        SwichTree(tree0);
-        PrintTree(tree0);
-        cout<<endl;
+        cout<<count[0]<<' '<<count[1]<<' '<<count[2]<<endl;
         ClearTree(tree0);
     }
 }

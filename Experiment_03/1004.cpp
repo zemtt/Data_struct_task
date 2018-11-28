@@ -31,21 +31,11 @@ void ClearTree(BiThrNode *tree){
     }
 }
 
-void SwichTree(BiThrTree tree){
-    if(tree){
-        BiThrNode *t;
-        t = tree->lchild;
-        tree->lchild = tree->rchild;
-        tree->rchild = t;
-        SwichTree(tree->lchild);
-        SwichTree(tree->rchild);
-    }
-}
-
 void PrintTree(BiThrTree tree){
     if(tree){
         cout<<tree->data;
         PrintTree(tree->lchild);
+        cout<<tree->data;
         PrintTree(tree->rchild);
     }
 }
@@ -58,7 +48,6 @@ int main(){
         if(!strcmp(str0, "0"))  break;
         ii=0;
         CreatTree(tree0, str0);
-        SwichTree(tree0);
         PrintTree(tree0);
         cout<<endl;
         ClearTree(tree0);

@@ -10,12 +10,24 @@ typedef struct BiThrNode{
     struct BiThrNode *lchild, *rchild;
 }BiThrNode, *BiThrTree;
 
-void CreatTree(BiThrTree &tree, char *str){
+char path[100][100];
+char v[100];
+
+void copy(char *a, char *b, int len){
+	if(a[0])	return;
+    for(int i=0;i<=len;i++){
+        a[i] = b[i];
+    }
+}
+
+void CreatTree(BiThrTree &tree, char *str, int vv){
     if(str[ii]!='0'&&str[ii]){
         tree = new BiThrNode;
         tree->data = str[ii++];
-        CreatTree(tree->lchild, str);
-        CreatTree(tree->rchild, str);
+        v[vv] = tree->data;
+        CreatTree(tree->lchild, str, vv+1);
+        CreatTree(tree->rchild, str, vv+1);
+        copy(path[vv], v, vv);
     }
     else{
         tree = NULL;
@@ -31,36 +43,18 @@ void ClearTree(BiThrNode *tree){
     }
 }
 
-void SwichTree(BiThrTree tree){
-    if(tree){
-        BiThrNode *t;
-        t = tree->lchild;
-        tree->lchild = tree->rchild;
-        tree->rchild = t;
-        SwichTree(tree->lchild);
-        SwichTree(tree->rchild);
-    }
-}
-
-void PrintTree(BiThrTree tree){
-    if(tree){
-        cout<<tree->data;
-        PrintTree(tree->lchild);
-        PrintTree(tree->rchild);
-    }
-}
-
 int main(){
     char str0[100];
     BiThrNode *tree0;
     while(1){
         cin>>str0;
+        memset(path, 0, sizeof(path));
         if(!strcmp(str0, "0"))  break;
         ii=0;
-        CreatTree(tree0, str0);
-        SwichTree(tree0);
-        PrintTree(tree0);
-        cout<<endl;
+        CreatTree(tree0, str0, 0);
+        int i;
+        for(i=0; path[i][0]; i++);
+        cout<<i<<endl<<path[i-1]<<endl;
         ClearTree(tree0);
     }
 }
